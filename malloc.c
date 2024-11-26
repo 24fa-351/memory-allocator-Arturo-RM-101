@@ -38,4 +38,29 @@ int main(int argc, char *argv[]) {
         ptrs[ix][length_to_copy] = '\0';
 
     }
+
+    printf("--------Reallocating memory--------\n");
+
+    for (int ix = 0; ix < TEST_SIZE; ix++) {
+        int size = rand_between(1, 50);
+        fprintf(stderr, "[%d] New size: %d\n", ix, size);
+
+        ptrs[ix] = (char *) realloc(ptrs[ix], size);
+
+        if (ptrs[ix] == NULL) {
+            printf("[%d] Failed to reallocate memory\n", ix);
+            return 1;
+        }
+
+        int length_to_copy = MIN(strlen(testing_string), size);
+
+        fprintf(stderr, "[%d] ptrs[%d]: %p, going to copy %d chars\n", ix, ix, ptrs[ix], length_to_copy);
+
+        strncpy(ptrs[ix], testing_string, length_to_copy);
+
+        ptrs[ix][length_to_copy] = '\0';
+
+        fprintf(stderr, "[%x] %s\n\n", ix, ptrs[ix]);
+    }
+
 }
