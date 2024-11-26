@@ -1,2 +1,2 @@
-malloc: malloc.c
-	gcc malloc.c -o malloc
+malloc: malloc.c memory.c
+	gcc malloc.c memory.c -o malloc

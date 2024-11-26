@@ -23,20 +23,20 @@ int main(int argc, char *argv[]) {
     for (int ix = 0; ix < TEST_SIZE; ix++) {
         int size = rand_between(1, 100);
 
-        ptrs[ix] = (char *) malloc(size);
+        ptrs[ix] = malloc_memory(size);
 
         if (ptrs[ix] == NULL) {
             printf("[%d] Failed to allocate memory\n", ix);
             return 1;
         }
 
-        fprintf(stderr, "[%d] Allocating %d bytes\n", ix, size);
 
         int length_to_copy = MIN(strlen(testing_string), size);
+        fprintf(stderr, "[%d] ptrs[%d] %p, going to copy %d chars\n", ix, ix, ptrs[ix], length_to_copy);
 
         strncpy(ptrs[ix], testing_string, length_to_copy);
         ptrs[ix][length_to_copy] = '\0';
-
+        fprintf(stderr, "[%x] %s\n\n", ix, ptrs[ix]);
     }
 
     printf("--------Reallocating memory--------\n");
@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
         int size = rand_between(1, 50);
         fprintf(stderr, "[%d] New size: %d\n", ix, size);
 
-        ptrs[ix] = (char *) realloc(ptrs[ix], size);
+        ptrs[ix] = realloc_memory(ptrs[ix], size);
 
         if (ptrs[ix] == NULL) {
             printf("[%d] Failed to reallocate memory\n", ix);
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
 
     for (int ix = 0; ix < TEST_SIZE; ix++) {
         fprintf(stderr, "[%d] freeing %p (%s)\n", ix, ptrs[ix], ptrs[ix]);
-        free(ptrs[ix]);
+        free_memory(ptrs[ix]);
         fprintf(stderr, "[%d] freed%p\n\n", ix, ptrs[ix]);
     }
 }
