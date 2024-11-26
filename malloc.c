@@ -63,4 +63,11 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "[%x] %s\n\n", ix, ptrs[ix]);
     }
 
+    printf("----------Freeing memory----------\n");
+
+    for (int ix = 0; ix < TEST_SIZE; ix++) {
+        fprintf(stderr, "[%d] freeing %p (%s)\n", ix, ptrs[ix], ptrs[ix]);
+        free(ptrs[ix]);
+        fprintf(stderr, "[%d] freed%p\n\n", ix, ptrs[ix]);
+    }
 }
