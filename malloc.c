@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "malloc.h"
 
 #define TEST_SIZE 10
@@ -11,19 +12,30 @@ int rand_between(int min, int max) {
 }
 
 int main(int argc, char *argv[]) {
-    srand(2020);
+    srand(1000);
 
     char* testing_string = "This will be the string that wil be tested";
 
     char *ptrs[TEST_SIZE];
 
-    for (int i = 0; i < TEST_SIZE; i++) {
+    printf("---------Allocating memory---------\n");
+
+    for (int ix = 0; ix < TEST_SIZE; ix++) {
         int size = rand_between(1, 100);
-        ptrs[i] = (char *) malloc(size);
-        if (ptrs[i] == NULL) {
-            printf("Failed to allocate memory\n");
+
+        ptrs[ix] = (char *) malloc(size);
+
+        if (ptrs[ix] == NULL) {
+            printf("[%d] Failed to allocate memory\n", ix);
             return 1;
         }
-        printf("Allocated %d bytes at %p\n", size, ptrs[i]);
+
+        fprintf(stderr, "[%d] Allocating %d bytes\n", ix, size);
+
+        int length_to_copy = MIN(strlen(testing_string), size);
+
+        strncpy(ptrs[ix], testing_string, length_to_copy);
+        ptrs[ix][length_to_copy] = '\0';
+
     }
 }
